@@ -8,3 +8,13 @@ This project provides a `docker-compose` file for starting
 up the frontend, backend, and database containers together.
 
 # Start wAVdio
+
+```bash
+docker-compose up -d
+```
+
+# Stop wAVdio
+
+```bash
+docker-compose down
+```
