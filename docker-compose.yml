@@ -1,47 +1,33 @@
 version: "3.7"
 
 networks:
-  angular-express:
-  express-mongo:
+  wavdio-net:
 
 services:
 
   wavdio-angular:
     container_name: wavdio-angular
-    restart: always
     image: xvlcw/wavdio-angular:2
-
+    networks:
+      - wavdio-net
+    ports:
+      - "80:80"
     depends_on:
       - wavdio-express
 
-    networks:
-      - angular-express
-    ports:
-      - 80:80
-
   wavdio-express:
     container_name: wavdio-express
-    restart: always
     image: xvlcw/wavdio-express:2
-
     command: node ./bin/server.js --db-uri mongodb://wavdio-mongo:27017/
-
+    networks:
+      - wavdio-net
     depends_on:
       - wavdio-mongo
-
-    networks:
-      - angular-express
-      - express-mongo
 
   wavdio-mongo:
     container_name: wavdio-mongo
     image: mongo:5-focal
-    restart: always
-
-    volumes:
-      - ./data:/data/db
-
     networks:
-      - express-mongo
+      - wavdio-net
     expose:
       - 27017
